@@ -6,6 +6,10 @@ terraform {
       version = "6.35.0"
     }
   }
+  backend "gcs" {
+    bucket = "helios-mdm-terraform-state"
+    prefix = "fleet/gcp"
+  }
 }
 
 provider "google" {
@@ -60,4 +64,5 @@ module "fleet" {
   database_config = var.database_config
   region          = var.region
   location        = var.location
+  secret_suffix   = var.secret_suffix
 }

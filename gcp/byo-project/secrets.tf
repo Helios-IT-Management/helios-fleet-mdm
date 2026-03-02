@@ -1,5 +1,10 @@
 resource "random_pet" "suffix" {
+  count  = var.secret_suffix == null ? 1 : 0
   length = 1
+}
+
+locals {
+  secret_suffix = coalesce(var.secret_suffix, try(random_pet.suffix[0].id, "default"))
 }
 
 resource "random_password" "private_key" {
@@ -8,7 +13,7 @@ resource "random_password" "private_key" {
 
 resource "google_secret_manager_secret" "database_password" {
   project   = var.project_id
-  secret_id = "fleet-db-password-${random_pet.suffix.id}"
+  secret_id = "fleet-db-password-${local.secret_suffix}"
   replication {
     auto {}
   }
@@ -21,7 +26,7 @@ resource "google_secret_manager_secret_version" "database_password" {
 
 resource "google_secret_manager_secret" "private_key" {
   project   = var.project_id
-  secret_id = "fleet-private-key-${random_pet.suffix.id}"
+  secret_id = "fleet-private-key-${local.secret_suffix}"
   replication {
     auto {}
   }

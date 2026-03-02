@@ -117,6 +117,12 @@ variable "vpc_config" {
   }
 }
 
+variable "secret_suffix" {
+  description = "Suffix appended to secret names. Set to pin existing secret names when importing. When null, a random pet name is generated."
+  type        = string
+  default     = null
+}
+
 variable "fleet_config" {
   description = "Configuration for the Fleet application deployment."
   type = object({
