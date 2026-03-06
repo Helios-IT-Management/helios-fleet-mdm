@@ -62,7 +62,7 @@ module "fleet-service" {
     egress = "ALL_TRAFFIC"
   }
   ingress = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
-  timeout = "300s"
+  timeout = "600s"
 
   service_scaling = {
     min_instance_count = var.fleet_config.min_instance_count
